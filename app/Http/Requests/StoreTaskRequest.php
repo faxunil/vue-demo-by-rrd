@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class StoreTaskRequest extends FormRequest
 {
@@ -18,7 +19,7 @@ class StoreTaskRequest extends FormRequest
     {
         $this->user=$user = Auth::guard('sanctum')->user();
 
-        return $this->user;
+        return $this->user?1:0;
     }
 
     /**
@@ -29,7 +30,11 @@ class StoreTaskRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'user_id'    => ['required', 'numeric', 'min:1','exists:users,id'],
+            'task'       => ['required', 'string','min:1','max:50'],
+            'comment'    => ['nullable', 'string',],
+            'due_date'  => ['nullable', 'date'],
+            'completed_at'  => ['nullable', 'date'],
         ];
     }
 }

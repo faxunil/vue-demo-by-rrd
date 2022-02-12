@@ -30,6 +30,12 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::get('/tasks', [TaskController::class,'index'])->name('api.tasks');
 
+    Route::resource('/task', TaskController::class);
+
+
+//    Route::get('/task/1', [TaskController::class,'show'])->name('api.task.show');
+//
+//    Route::put('/task/1', [TaskController::class,'update'])->name('api.task.update');
 
 });
 

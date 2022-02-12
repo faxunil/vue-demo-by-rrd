@@ -53,7 +53,7 @@ class ApiUserController extends Controller
                     'user' => $user,
                     'is_admin' => $user->is_admin
                 ],
-                    'message' => __('Logged in successfully.')
+                    'message' => __('Sikeres regisztráció')
                 ],
                 201);
         } else {
