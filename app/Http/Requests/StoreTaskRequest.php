@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreTaskRequest extends FormRequest
@@ -11,9 +12,13 @@ class StoreTaskRequest extends FormRequest
      *
      * @return bool
      */
+    public User $user;
+
     public function authorize()
     {
-        return false;
+        $this->user=$user = Auth::guard('sanctum')->user();
+
+        return $this->user;
     }
 
     /**

@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\TaskResource;
+use App\Models\Task;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
 {
@@ -14,7 +17,13 @@ class TaskController extends Controller
      */
     public function index()
     {
-        //
+        abort_if(!$user = Auth::guard('sanctum')->user(), 401,__('Unauthorized'));
+
+        return TaskResource::collection(
+            Task::withTrashed()
+                ->with('user')
+                ->get()
+        );
     }
 
     /**

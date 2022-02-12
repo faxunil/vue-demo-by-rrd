@@ -13,7 +13,8 @@ class UpdateTaskRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        $this->user=$user = Auth::guard('sanctum')->user();
+        return $this->user;
     }
 
     /**
