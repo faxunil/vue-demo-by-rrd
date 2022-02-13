@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreTaskRequest;
+use App\Http\Requests\UpdateTaskRequest;
 use App\Http\Resources\TaskResource;
 use App\Models\Task;
 use Illuminate\Http\Request;
@@ -18,7 +19,7 @@ class TaskController extends Controller
      */
     public function index()
     {
-        abort_if(!$user = Auth::guard('sanctum')->user(), 401,__('Unauthorized'));
+        abort_if(!$user = Auth::guard('sanctum')->user(), 401, __('Unauthorized'));
 
         return TaskResource::collection(
             Task::withTrashed()
@@ -30,53 +31,124 @@ class TaskController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(StoreTaskRequest $request)
     {
-        abort_if(!$user = Auth::guard('sanctum')->user(), 401,__('Unauthorized'));
+        abort_if(!$user = Auth::guard('sanctum')->user(), 401, __('Unauthorized'));
 
-        if ($task=Task::create($request->validated())) {
+        if ($task = Task::create($request->validated())) {
             $task->load('user');
             return new TaskResource($task);
         } else {
-            abort( 401, __('Unauthorized.'));
+            abort(401, __('Unauthorized.'));
         }
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Task $task )
+    public function show(Task $task)
     {
-        abort_if(!$user = Auth::guard('sanctum')->user(), 401,__('Unauthorized'));
+        abort_if(!$user = Auth::guard('sanctum')->user(), 401, __('Unauthorized'));
         return new TaskResource($task);
     }
 
-    /**
+    /**+
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StoreTaskRequest $request, Task $task)
     {
-        //
+        abort_if(!$user = Auth::guard('sanctum')->user(), 401, __('Unauthorized'));
+
+        if ($task->update($request->validated())) {
+            $task->load('user');
+            return new TaskResource($task);
+        } else {
+            abort(401, __('Unauthorized.'));
+        }
     }
 
+    public function restore(int $task)
+    {
+
+        abort_if(!$user = Auth::guard('sanctum')->user(), 401, __('Unauthorized'));
+
+        if (!$task = Task::withTrashed()->find($task)) {
+            abort(404, __('A keresett task nem található.'));
+        }
+
+        try {
+            if ($task->deleted_at) {
+                $task->restore();
+                return response(
+                    ['data' => [
+                        'task' => $task,
+                    ],
+                        'message' => __('Aktiválva')
+                    ],
+                    201);
+            } else {
+                return response(
+                    ['data' => [
+                        'task' => $task,
+                    ],
+                        'message' => __('Már aktív volt')
+                    ],
+                    201);
+            }
+        } catch (exception $e) {
+            info($e);
+            abort(500, 'Nem sikerült törölni...');
+        }
+
+    }
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(int $task)
     {
-        //
+        abort_if(!$user = Auth::guard('sanctum')->user(), 401, __('Unauthorized'));
+
+        if (!$task = Task::withTrashed()->find($task)) {
+            abort(404, __('A keresett task nem található.'));
+        }
+        try {
+            if (is_null($task->deleted_at)) {
+                $task->delete();
+                return response(
+                    ['data' => [
+                        'task' => $task,
+                    ],
+                        'message' => __('Inaktiválva')
+                    ],
+                    201);
+            } else {
+                $task->forceDelete();
+                return response(
+                    ['data' => [
+                        'task' => $task,
+                    ],
+                        'message' => __('Véglegesen törölve')
+                    ],
+                    201);
+            }
+        } catch (exception $e) {
+            info($e);
+            abort(500, 'Nem sikerült törölni...');
+        }
+
+
     }
 }
