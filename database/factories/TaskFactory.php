@@ -22,7 +22,7 @@ class TaskFactory extends Factory
         $completed=(rand(0,100)%4==0? Carbon::parse($due)->add('DAY',rand(1,5))->format('Y-m-d H:i:s'):null);
 
         return [
-            'task' =>   substr($this->faker->sentence(3),50),
+            'task' =>   substr( $this->faker->sentence(3),0,50),
             'comment'=> $this->faker->sentence(20),
             'due_date' => $due,
             'user_id'=>1,

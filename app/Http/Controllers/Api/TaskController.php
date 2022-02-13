@@ -23,6 +23,9 @@ class TaskController extends Controller
 
         return TaskResource::collection(
             Task::withTrashed()
+                ->when(!$user->is_admin, function($q) use ($user) {
+                    return $q->where('user_id','=',(int) $user->id);
+                })
                 ->with('user')
                 ->get()
         );

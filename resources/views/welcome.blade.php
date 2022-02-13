@@ -435,7 +435,7 @@
                 </div>
             </div>
             <div class="max-w-6xl mx-auto sm:px-6 lg:px-8 ">
-                <p>/p>
+                <p>
 
             </div>
             <div class="mt-8 bg-white dark:bg-gray-800 overflow-hidden shadow sm:rounded-lg">
@@ -449,6 +449,7 @@
                         <div class="ml-12">
                             <div class="mt-2 text-gray-600 dark:text-gray-400 text-2xl">
                                 A Vue.Js oktató anyagokat készítette: <a href="https://webmania.cc/rrd/">RRD</a>
+                                <a href="https://webmania.cc/oktato-videok/" class="cursor-pointer">további oktató videók</a>
                             </div>
                         </div>
                     </div>
@@ -467,7 +468,7 @@
 
                         <div class="ml-12">
                             <div class="mt-2 text-gray-600 dark:text-gray-400 text-2xl">
-                                A Laravel backend API-t készítette: <a href="https://www.faxunil.eu">Csermely Gergely</a>
+                                A Laravel backend API-t készítette: <a href="https://www.faxunil.eu" class="cursor-pointer">Csermely Gergely</a>
                             </div>
                         </div>
                     </div>
