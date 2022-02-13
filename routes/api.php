@@ -29,7 +29,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     });
     Route::post('/task/{task}/restore', [TaskController::class,'restore'])->name('api.tasks.restore');
 
-    Route::get('/tasks', [TaskController::class,'index']);
+    //Route::get('/tasks', [TaskController::class,'index']);
 
     Route::resource('/task', TaskController::class);
 
