@@ -45,20 +45,19 @@ class ApiUserController extends Controller
         $toStore['is_admin']=0;
         $toStore['password']=Hash::make($toStore['password']);
 
-        if ($user=User::create($toStore)) {
-            $token = $user->createToken('api')->plainTextToken;
-            return response(
-                ['data' => [
-                    'token' => $token,
-                    'user' => $user,
-                    'is_admin' => $user->is_admin
-                ],
-                    'message' => __('Sikeres regisztráció')
-                ],
-                201);
-        } else {
-            abort( 401, __('Unauthorized.'));
-        }
+        if (!($user=User::create($toStore)))  abort( 500, __('Create Error'));
+
+        $token = $user->createToken('api')->plainTextToken;
+
+        return response(
+            ['data' => [
+                'token' => $token,
+                'user' => $user,
+                'is_admin' => $user->is_admin
+            ],
+                'message' => __('Sikeres regisztráció')
+            ],
+            201);
     }
 
 
@@ -73,6 +72,7 @@ class ApiUserController extends Controller
         }
 
         abort_if(!$user || !Hash::check(request('password'), $user->getAuthPassword()), 401, __('Unauthorized.'));
+
         $token = $user->createToken('api')->plainTextToken;
 
         return response(

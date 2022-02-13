@@ -23,8 +23,8 @@ class TaskController extends Controller
 
         return TaskResource::collection(
             Task::withTrashed()
-                ->when(!$user->is_admin, function($q) use ($user) {
-                    return $q->where('user_id','=',(int) $user->id);
+                ->when(!$user->is_admin, function ($q) use ($user) {
+                    return $q->where('user_id', '=', (int)$user->id);
                 })
                 ->with('user')
                 ->get()
@@ -41,12 +41,11 @@ class TaskController extends Controller
     {
         abort_if(!$user = Auth::guard('sanctum')->user(), 401, __('Unauthorized'));
 
-        if ($task = Task::create($request->validated())) {
-            $task->load('user');
-            return new TaskResource($task);
-        } else {
-            abort(401, __('Unauthorized.'));
-        }
+        if (!($task = Task::create($request->validated()))) abort(500, __('Create error'));
+
+        $task->load('user');
+
+        return new TaskResource($task);
     }
 
     /**
@@ -58,6 +57,7 @@ class TaskController extends Controller
     public function show(Task $task)
     {
         abort_if(!$user = Auth::guard('sanctum')->user(), 401, __('Unauthorized'));
+
         return new TaskResource($task);
     }
 
@@ -72,12 +72,11 @@ class TaskController extends Controller
     {
         abort_if(!$user = Auth::guard('sanctum')->user(), 401, __('Unauthorized'));
 
-        if ($task->update($request->validated())) {
-            $task->load('user');
-            return new TaskResource($task);
-        } else {
-            abort(401, __('Unauthorized.'));
-        }
+        if (!($task->update($request->validated()))) abort(500, __('Update error.'));
+
+        $task->load('user');
+
+        return new TaskResource($task);
     }
 
     public function restore(int $task)
@@ -114,6 +113,7 @@ class TaskController extends Controller
         }
 
     }
+
     /**
      * Remove the specified resource from storage.
      *
