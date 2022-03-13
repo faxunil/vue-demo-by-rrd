@@ -132,6 +132,42 @@ Response
 }
 ```
 
+### Feladat módosítása: `PATCH task/{TASKID}`
+
+Request
+
+```json
+{
+	"user_id": 12,
+	"task": "módosított task név",
+}
+```
+
+Response
+
+```json
+{
+	"data": {
+		"id": 126,
+		"user_id": 12,
+		"task": "módosított task név",
+		"comment": null,
+		"due_date": "2022-03-28 00:00:00",
+		"completed_at": "",
+		"duration": "00-1-5 09:7:1",
+		"deleted_at": "",
+		"created_at": "2022-03-13 09:02:59",
+		"updated_at": "2022-03-13 09:07:01",
+		"user": {
+			"id": 12,
+			"email": "rrd@webmania.cc",
+			"name": "rrd",
+			"is_admin": 0
+		}
+	}
+}
+```
+
 
 ## About Laravel
 
