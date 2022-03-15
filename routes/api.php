@@ -27,7 +27,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
-    Route::post('/task/{task}/status', [TaskController::class,'changeStatus'])->name('api.tasks.status');
+    Route::patch('/task/{task}/status', [TaskController::class,'changeStatus'])->name('api.tasks.status');
     Route::post('/task/{task}/restore', [TaskController::class,'restore'])->name('api.tasks.restore');
 
     //Route::get('/tasks', [TaskController::class,'index']);
