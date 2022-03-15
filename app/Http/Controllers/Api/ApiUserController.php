@@ -71,6 +71,7 @@ class ApiUserController extends Controller
             ->first()) {
         }
 
+
         abort_if(!$user || !Hash::check(request('password'), $user->getAuthPassword()), 401, __('Unauthorized.'));
 
         $token = $user->createToken('api')->plainTextToken;

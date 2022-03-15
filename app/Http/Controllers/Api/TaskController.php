@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ChangeTaskStatusRequest;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use App\Http\Resources\TaskResource;
@@ -30,6 +31,18 @@ class TaskController extends Controller
                 ->get()
         );
     }
+    public function changeStatus(ChangeTaskStatusRequest $request, Task $task)
+    {
+        abort_if(!$user = Auth::guard('sanctum')->user(), 401, __('Unauthorized'));
+
+        if (!($task->update($request->validated()))) abort(500, __('Update error.'));
+        $task->load('user');
+
+        return new TaskResource($task);
+    }
+
+
+
 
     /**
      * Store a newly created resource in storage.
@@ -41,7 +54,7 @@ class TaskController extends Controller
     {
         abort_if(!$user = Auth::guard('sanctum')->user(), 401, __('Unauthorized'));
 
-        if (!($task = Task::create($request->validated()))) abort(500, __('Create error'));
+             if (!($task = Task::create($request->validated()))) abort(500, __('Create error'));
 
         $task->load('user');
 
