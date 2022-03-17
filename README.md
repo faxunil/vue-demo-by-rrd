@@ -169,6 +169,41 @@ Response
 }
 ```
 
+### Feladat késznek jelölése: `PATCH task/{TASKID}/status`
+
+Request
+
+```json
+{
+  "completed_at": "2022-03-17"
+}
+```
+
+Response
+
+```json
+{
+  "data": {
+    "id": 107,
+    "user_id": 12,
+    "task": "első task szerkesztve",
+    "comment": null,
+    "due_date": "2022-02-25 00:00:00",
+    "completed_at": "2022-03-17 00:00:00",
+    "duration": "00-0-20 00:0:0",
+    "deleted_at": null,
+    "created_at": "2022-02-20 13:40:21",
+    "updated_at": "2022-03-17 14:30:47",
+    "user": {
+      "id": 12,
+      "email": "rrd@webmania.cc",
+      "name": "rrd",
+      "is_admin": 0
+    }
+  }
+}
+```
+
 ## About Laravel
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
