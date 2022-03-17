@@ -10,6 +10,7 @@
 </p>
 
 ## Telepítés:
+
 git clone https://github.com/faxunil/vue-demo-by-rrd.git demo
 Állítsuk be a tárhelyen az adatbázist.
 A .ENV fájl hozzuk létre, amelyben állítsuk be a létrehozott MySQL adatbázis eléréséhez szükséges adatokat.
@@ -24,12 +25,13 @@ artisan storage:link (ha a tárhelyen nem működik a symlink() php-s fgv akkor 
 ### Felhasználói regisztráció: `POST api/register`
 
 Request
+Header: `Content-Type: application/json`
 
 ```json
 {
-	"name": "rrd",
-	"email": "rrd@webmania.cc",
-	"password": "Gauranga"
+  "name": "rrd",
+  "email": "rrd@webmania.cc",
+  "password": "Gauranga"
 }
 ```
 
@@ -37,30 +39,31 @@ Response
 
 ```json
 {
-	"data": {
-		"token": "1|lrJzdF2AWrVhi4JnycictT4XmHDBbxe496uOiJnp",
-		"user": {
-			"email": "rrd@webmania.cc",
-			"name": "rrd",
-			"is_admin": 0,
-			"updated_at": "2022-02-13T15:42:42.000000Z",
-			"created_at": "2022-02-13T15:42:42.000000Z",
-			"id": 12
-		},
-		"is_admin": 0
-	},
-	"message": "Sikeres regisztráció"
+  "data": {
+    "token": "1|lrJzdF2AWrVhi4JnycictT4XmHDBbxe496uOiJnp",
+    "user": {
+      "email": "rrd@webmania.cc",
+      "name": "rrd",
+      "is_admin": 0,
+      "updated_at": "2022-02-13T15:42:42.000000Z",
+      "created_at": "2022-02-13T15:42:42.000000Z",
+      "id": 12
+    },
+    "is_admin": 0
+  },
+  "message": "Sikeres regisztráció"
 }
 ```
 
 ### Felhasználói bejelentkezés: `POST api/login`
 
 Request
+Header: `Content-Type: application/json`
 
 ```json
 {
-	"email": "rrd@webmania.cc",
-	"password": "Gauranga"
+  "email": "rrd@webmania.cc",
+  "password": "Gauranga"
 }
 ```
 
@@ -68,42 +71,44 @@ Response
 
 ```json
 {
-	"data": {
-		"token": "2|rOG4cjVwVzQPZLzyMVVoAAKFoEPafwSMvDjhdxzk",
-		"user": {
-			"id": 12,
-			"email": "rrd@webmania.cc",
-			"name": "rrd",
-			"is_admin": 0,
-			"tasks": [
-				{
-					"id": 108,
-					"user_id": 12,
-					"task": "rrd teszt",
-					"comment": null,
-					"due_date": "2022-02-28 00:00:00",
-					"completed_at": null,
-					"deleted_at": null,
-					"created_at": "2022-02-20T12:42:36.000000Z",
-					"updated_at": "2022-02-20T12:42:36.000000Z"
-				}
-			]
-		},
-		"is_admin": 0
-	},
-	"message": "Logged in successfully."
+  "data": {
+    "token": "2|rOG4cjVwVzQPZLzyMVVoAAKFoEPafwSMvDjhdxzk",
+    "user": {
+      "id": 12,
+      "email": "rrd@webmania.cc",
+      "name": "rrd",
+      "is_admin": 0,
+      "tasks": [
+        {
+          "id": 108,
+          "user_id": 12,
+          "task": "rrd teszt",
+          "comment": null,
+          "due_date": "2022-02-28 00:00:00",
+          "completed_at": null,
+          "deleted_at": null,
+          "created_at": "2022-02-20T12:42:36.000000Z",
+          "updated_at": "2022-02-20T12:42:36.000000Z"
+        }
+      ]
+    },
+    "is_admin": 0
+  },
+  "message": "Logged in successfully."
 }
 ```
 
 ### Új feladat létrehozása: `POST api/task`
 
-Request
+Request - Bearer tokkenel
+Header: `Content-Type: application/json`
+`Accept: application/json`
 
 ```json
 {
-		"user_id": "12",
-		"task": "új feladat minta",
-		"due_date": "2022-02-28"
+  "user_id": "12",
+  "task": "új feladat minta",
+  "due_date": "2022-02-28"
 }
 ```
 
@@ -111,35 +116,37 @@ Response
 
 ```json
 {
-	"data": {
-		"id": 101,
-		"user_id": "12",
-		"task": "új feladat minta",
-		"comment": null,
-		"due_date": "2022-02-28 00:00:00",
-		"completed_at": "null",
-		"duration": "00-0-7 11:34:24",
-		"deleted_at": "null",
-		"created_at": "2022-02-20 12:25:36",
-		"updated_at": "2022-02-20 12:25:36",
-		"user": {
-			"id": 12,
-			"email": "rrd@webmania.cc",
-			"name": "rrd",
-			"is_admin": 0
-		}
-	}
+  "data": {
+    "id": 101,
+    "user_id": "12",
+    "task": "új feladat minta",
+    "comment": null,
+    "due_date": "2022-02-28 00:00:00",
+    "completed_at": "null",
+    "duration": "00-0-7 11:34:24",
+    "deleted_at": "null",
+    "created_at": "2022-02-20 12:25:36",
+    "updated_at": "2022-02-20 12:25:36",
+    "user": {
+      "id": 12,
+      "email": "rrd@webmania.cc",
+      "name": "rrd",
+      "is_admin": 0
+    }
+  }
 }
 ```
 
 ### Feladat módosítása: `PATCH task/{TASKID}`
 
-Request
+Request - Bearer tokkenel
+Header: `Content-Type: application/json`
+`Accept: application/json`
 
 ```json
 {
-	"user_id": 12,
-	"task": "módosított task név",
+  "user_id": 12,
+  "task": "módosított task név"
 }
 ```
 
@@ -147,27 +154,92 @@ Response
 
 ```json
 {
-	"data": {
-		"id": 126,
-		"user_id": 12,
-		"task": "módosított task név",
-		"comment": null,
-		"due_date": "2022-03-28 00:00:00",
-		"completed_at": "",
-		"duration": "00-1-5 09:7:1",
-		"deleted_at": "",
-		"created_at": "2022-03-13 09:02:59",
-		"updated_at": "2022-03-13 09:07:01",
-		"user": {
-			"id": 12,
-			"email": "rrd@webmania.cc",
-			"name": "rrd",
-			"is_admin": 0
-		}
-	}
+  "data": {
+    "id": 126,
+    "user_id": 12,
+    "task": "módosított task név",
+    "comment": null,
+    "due_date": "2022-03-28 00:00:00",
+    "completed_at": "",
+    "duration": "00-1-5 09:7:1",
+    "deleted_at": "",
+    "created_at": "2022-03-13 09:02:59",
+    "updated_at": "2022-03-13 09:07:01",
+    "user": {
+      "id": 12,
+      "email": "rrd@webmania.cc",
+      "name": "rrd",
+      "is_admin": 0
+    }
+  }
 }
 ```
 
+### Feladat késznek jelölése: `PATCH task/{TASKID}/status`
+
+Request - Bearer tokkenel
+Header: `Content-Type: application/json`
+`Accept: application/json`
+
+```json
+{
+  "completed_at": "2022-03-17"
+}
+```
+
+Response
+
+```json
+{
+  "data": {
+    "id": 107,
+    "user_id": 12,
+    "task": "első task szerkesztve",
+    "comment": null,
+    "due_date": "2022-02-25 00:00:00",
+    "completed_at": "2022-03-17 00:00:00",
+    "duration": "00-0-20 00:0:0",
+    "deleted_at": null,
+    "created_at": "2022-02-20 13:40:21",
+    "updated_at": "2022-03-17 14:30:47",
+    "user": {
+      "id": 12,
+      "email": "rrd@webmania.cc",
+      "name": "rrd",
+      "is_admin": 0
+    }
+  }
+}
+```
+
+### Feladat törlése: `DELETE task/{TASKID}` - soft delete
+
+Request - Bearer tokkenel
+Header: `Content-Type: application/json`
+`Accept: application/json`
+
+A request body üres.
+
+Response
+
+```json
+{
+  "data": {
+    "task": {
+      "id": 108,
+      "user_id": 12,
+      "task": "Második task",
+      "comment": null,
+      "due_date": "2022-03-02 00:00:00",
+      "completed_at": null,
+      "deleted_at": "2022-02-20T14:26:49.000000Z",
+      "created_at": "2022-02-20T13:45:39.000000Z",
+      "updated_at": "2022-02-20T14:26:49.000000Z"
+    }
+  },
+  "message": "Inaktiválva"
+}
+```
 
 ## About Laravel
 
@@ -224,4 +296,5 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
 # vue-demo-by-rrd
