@@ -25,6 +25,7 @@ artisan storage:link (ha a tárhelyen nem működik a symlink() php-s fgv akkor 
 ### Felhasználói regisztráció: `POST api/register`
 
 Request
+Header: `Content-Type: application/json`
 
 ```json
 {
@@ -57,6 +58,7 @@ Response
 ### Felhasználói bejelentkezés: `POST api/login`
 
 Request
+Header: `Content-Type: application/json`
 
 ```json
 {
@@ -98,7 +100,9 @@ Response
 
 ### Új feladat létrehozása: `POST api/task`
 
-Request
+Request - Bearer tokkenel
+Header: `Content-Type: application/json`
+`Accept: application/json`
 
 ```json
 {
@@ -135,7 +139,9 @@ Response
 
 ### Feladat módosítása: `PATCH task/{TASKID}`
 
-Request
+Request - Bearer tokkenel
+Header: `Content-Type: application/json`
+`Accept: application/json`
 
 ```json
 {
@@ -171,7 +177,9 @@ Response
 
 ### Feladat késznek jelölése: `PATCH task/{TASKID}/status`
 
-Request
+Request - Bearer tokkenel
+Header: `Content-Type: application/json`
+`Accept: application/json`
 
 ```json
 {
