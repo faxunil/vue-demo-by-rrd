@@ -212,6 +212,35 @@ Response
 }
 ```
 
+### Feladat törlése: `DELETE task/{TASKID}` - soft delete
+
+Request - Bearer tokkenel
+Header: `Content-Type: application/json`
+`Accept: application/json`
+
+A request body üres.
+
+Response
+
+```json
+{
+  "data": {
+    "task": {
+      "id": 108,
+      "user_id": 12,
+      "task": "Második task",
+      "comment": null,
+      "due_date": "2022-03-02 00:00:00",
+      "completed_at": null,
+      "deleted_at": "2022-02-20T14:26:49.000000Z",
+      "created_at": "2022-02-20T13:45:39.000000Z",
+      "updated_at": "2022-02-20T14:26:49.000000Z"
+    }
+  },
+  "message": "Inaktiválva"
+}
+```
+
 ## About Laravel
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
